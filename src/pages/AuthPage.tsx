@@ -3,12 +3,13 @@ import { RoleSelector } from '../components/RoleSelector';
 
 type Props = {
   onLogin: (role: string, name: string) => void;
+  defaultMode?: 'login' | 'register';
 };
 
-export default function AuthPage({ onLogin }: Props) {
+export default function AuthPage({ onLogin, defaultMode = 'register' }: Props) {
   const [role, setRole] = useState('parent');
   const [name, setName] = useState('');
-  const [mode, setMode] = useState<'login' | 'register'>('register');
+  const [mode, setMode] = useState<'login' | 'register'>(defaultMode);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

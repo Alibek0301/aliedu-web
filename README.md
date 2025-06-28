@@ -67,3 +67,19 @@ export default tseslint.config([
   },
 ])
 ```
+
+## Quick start
+
+Install dependencies and run the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+To lint and build the project (requires dependencies installed):
+
+```bash
+npm run lint
+npm run build
+```

@@ -10,6 +10,7 @@ function App() {
   // добавлена страница 'child'
   const [page, setPage] = useState<'home' | 'catalog' | 'auth' | 'parent' | 'club' | 'admin' | 'child'>('home');
   const [user, setUser] = useState<{ role: string, name: string } | null>(null);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
 
   return (
     <div style={{
@@ -178,7 +179,10 @@ function App() {
                   cursor: 'pointer',
                   boxShadow: '0 2px 8px #0001'
                 }}
-                onClick={() => setPage('auth')}
+                onClick={() => {
+                  setAuthMode('login');
+                  setPage('auth');
+                }}
               >
                 Login
               </button>
@@ -194,7 +198,10 @@ function App() {
                   cursor: 'pointer',
                   boxShadow: '0 2px 8px #4aa7f526'
                 }}
-                onClick={() => setPage('auth')}
+                onClick={() => {
+                  setAuthMode('register');
+                  setPage('auth');
+                }}
               >
                 Регистрация
               </button>
@@ -252,6 +259,7 @@ function App() {
         {page === 'catalog' && <ClubsCatalog />}
         {page === 'auth' && (
           <AuthPage
+            defaultMode={authMode}
             onLogin={(role, name) => {
               setUser({ role, name });
               setPage('home');
