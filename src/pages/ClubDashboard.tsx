@@ -11,8 +11,8 @@ const mockClub = {
 };
 
 const mockSchedule = [
-  { name: 'Робототехника', days: 'Пн, Ср, Пт', time: '15:00–16:30' },
-  { name: 'Шахматы', days: 'Вт, Чт', time: '16:00–17:00' }
+  { id: 1, name: 'Робототехника', days: 'Пн, Ср, Пт', time: '15:00–16:30' },
+  { id: 2, name: 'Шахматы', days: 'Вт, Чт', time: '16:00–17:00' }
 ];
 
 export default function ClubDashboard() {
@@ -97,8 +97,8 @@ export default function ClubDashboard() {
           marginBottom: 14
         }}>👩‍🏫 Педагоги</div>
         <ul style={{ paddingLeft: 18, fontSize: 16, fontWeight: 700, color: '#34480A' }}>
-          {mockClub.teachers.map((t, idx) => (
-            <li key={idx} style={{ marginBottom: 6 }}>{t}</li>
+          {mockClub.teachers.map(t => (
+            <li key={t} style={{ marginBottom: 6 }}>{t}</li>
           ))}
         </ul>
       </div>
@@ -132,8 +132,8 @@ export default function ClubDashboard() {
             </tr>
           </thead>
           <tbody>
-            {mockSchedule.map((row, idx) => (
-              <tr key={idx} style={{ background: idx % 2 === 0 ? '#F7FCFF' : '#fff' }}>
+            {mockSchedule.map(row => (
+              <tr key={row.id} style={{ background: row.id % 2 === 0 ? '#F7FCFF' : '#fff' }}>
                 <td style={{ padding: 9 }}>{row.name}</td>
                 <td style={{ padding: 9 }}>{row.days}</td>
                 <td style={{ padding: 9 }}>{row.time}</td>

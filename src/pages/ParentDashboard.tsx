@@ -6,13 +6,13 @@ const mockChild = {
 };
 
 const mockRecords = [
-  { club: 'Робототехника Junior', date: '2024-09-01', status: 'Записан' },
-  { club: 'Футбольная секция "Звезда"', date: '2024-09-02', status: 'Посещено' }
+  { id: 1, club: 'Робототехника Junior', date: '2024-09-01', status: 'Записан' },
+  { id: 2, club: 'Футбольная секция "Звезда"', date: '2024-09-02', status: 'Посещено' }
 ];
 
 const mockEvents = [
-  { date: '2024-09-03', event: 'Открытый урок по рисованию' },
-  { date: '2024-09-05', event: 'Запись в "Робототехника Junior"' }
+  { id: 1, date: '2024-09-03', event: 'Открытый урок по рисованию' },
+  { id: 2, date: '2024-09-05', event: 'Запись в "Робототехника Junior"' }
 ];
 
 export default function ParentDashboard() {
@@ -85,8 +85,8 @@ export default function ParentDashboard() {
             letterSpacing: 1
           }}>История записей</div>
           <ul style={{ paddingLeft: 14, fontSize: 15, fontWeight: 600, color: '#34480A' }}>
-            {mockRecords.map((rec, idx) => (
-              <li key={idx} style={{ marginBottom: 7 }}>
+            {mockRecords.map(rec => (
+              <li key={rec.id} style={{ marginBottom: 7 }}>
                 <span style={{ color: '#4AA7F5', fontWeight: 800 }}>{rec.club}</span><br />
                 <span style={{ color: '#888' }}>{rec.date}</span>{' '}
                 <b style={{
@@ -114,8 +114,8 @@ export default function ParentDashboard() {
             letterSpacing: 1
           }}>Ближайшие события</div>
           <ul style={{ paddingLeft: 14, fontSize: 15, fontWeight: 600, color: '#B88D0B' }}>
-            {mockEvents.map((ev, idx) => (
-              <li key={idx} style={{ marginBottom: 7 }}>
+            {mockEvents.map(ev => (
+              <li key={ev.id} style={{ marginBottom: 7 }}>
                 <span style={{ color: '#4AA7F5', fontWeight: 800 }}>{ev.date}</span>{' '}
                 <span>{ev.event}</span>
               </li>

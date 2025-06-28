@@ -4,12 +4,12 @@ const mockProfile = {
   photoUrl: 'https://randomuser.me/api/portraits/med/women/43.jpg',
   interests: ['Робототехника', 'Рисование', 'Футбол'],
   achievements: [
-    { title: '1 место на олимпиаде по робототехнике', year: 2024 },
-    { title: 'Грамота за активное участие', year: 2023 },
+    { id: 1, title: '1 место на олимпиаде по робототехнике', year: 2024 },
+    { id: 2, title: 'Грамота за активное участие', year: 2023 },
   ],
   documents: [
-    { title: 'Медицинская справка', file: 'med-spravka.pdf' },
-    { title: 'Договор', file: 'dogovor.pdf' },
+    { id: 1, title: 'Медицинская справка', file: 'med-spravka.pdf' },
+    { id: 2, title: 'Договор', file: 'dogovor.pdf' },
   ],
 };
 
@@ -75,8 +75,8 @@ export default function ChildProfile() {
           gap: 20,
           flexWrap: 'wrap'
         }}>
-          {mockProfile.achievements.map((ach, idx) => (
-            <div key={idx} style={{
+          {mockProfile.achievements.map(ach => (
+            <div key={ach.id} style={{
               background: '#fff',
               borderRadius: 14,
               boxShadow: '0 2px 8px #4AA7F515',
@@ -109,8 +109,8 @@ export default function ChildProfile() {
           fontWeight: 700,
           fontSize: 16
         }}>
-          {mockProfile.documents.map((doc, idx) => (
-            <li key={idx} style={{ marginBottom: 8 }}>
+          {mockProfile.documents.map(doc => (
+            <li key={doc.id} style={{ marginBottom: 8 }}>
               <a
                 href={`#${doc.file}`}
                 style={{

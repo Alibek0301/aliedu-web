@@ -1,5 +1,6 @@
 const mockClubs = [
   {
+    id: 1,
     name: 'Робототехника Junior',
     city: 'Астана',
     address: 'ул. Абая, 11',
@@ -10,6 +11,7 @@ const mockClubs = [
     desc: 'Роботы, 3D-принтеры, соревнования и творчество для детей.',
   },
   {
+    id: 2,
     name: 'Шахматная академия',
     city: 'Астана',
     address: 'пр. Мангилик Ел, 12',
@@ -20,6 +22,7 @@ const mockClubs = [
     desc: 'Обучение шахматам в группах и индивидуально. Турниры каждую неделю!',
   },
   {
+    id: 3,
     name: 'Арт-студия "Краски"',
     city: 'Астана',
     address: 'ул. Сарыарка, 7',
@@ -68,8 +71,8 @@ export default function ClubsCatalog() {
         gap: 32,
         gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))'
       }}>
-        {mockClubs.map((club, idx) => (
-          <div key={idx} style={{
+        {mockClubs.map(club => (
+          <div key={club.id} style={{
             background: '#fff',
             borderRadius: 26,
             boxShadow: '0 4px 24px #0001',
