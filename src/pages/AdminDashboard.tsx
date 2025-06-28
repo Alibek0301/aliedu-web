@@ -1,23 +1,20 @@
-const mockStats = {
-  clubs: 12,
-  parents: 41,
-  students: 56,
-  pendingClubs: 2,
-  reviews: 7,
+import { useEffect, useState } from 'react';
+
+type Dashboard = {
+  stats: { clubs: number; parents: number; students: number; pendingClubs: number; reviews: number };
+  complaints: { id: number; text: string; status: string }[];
+  users: { id: number; name: string; role: string }[];
 };
 
-const mockComplaints = [
-  { id: 1, text: 'Некорректная информация о кружке "Футбольная секция"', status: 'Новая' },
-  { id: 2, text: 'Жалоба на поведение педагога', status: 'В работе' },
-];
-
-const mockUsers = [
-  { id: 1, name: 'Айжан', role: 'parent' },
-  { id: 2, name: 'Юный гений', role: 'club' },
-  { id: 3, name: 'Админ', role: 'admin' },
-];
-
 export default function AdminDashboard() {
+  const [data, setData] = useState<Dashboard | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/dashboard')
+      .then(r => r.json())
+      .then(setData)
+      .catch(() => setData(null));
+  }, []);
   return (
     <div style={{
       maxWidth: 960,
@@ -34,11 +31,11 @@ export default function AdminDashboard() {
         marginBottom: 34,
         flexWrap: 'wrap'
       }}>
-        <div style={statBox('#4AA7F5', '#fff')}>Кружков<br /><b>{mockStats.clubs}</b></div>
-        <div style={statBox('#A7E04B', '#233F11')}>Родителей<br /><b>{mockStats.parents}</b></div>
-        <div style={statBox('#F9D469', '#B88D0B')}>Ученики<br /><b>{mockStats.students}</b></div>
-        <div style={statBox('#FFF6A0', '#E3A00C')}>На модерации<br /><b>{mockStats.pendingClubs}</b></div>
-        <div style={statBox('#E4ECFF', '#4AA7F5')}>Отзывы<br /><b>{mockStats.reviews}</b></div>
+        <div style={statBox('#4AA7F5', '#fff')}>Кружков<br /><b>{data?.stats.clubs}</b></div>
+        <div style={statBox('#A7E04B', '#233F11')}>Родителей<br /><b>{data?.stats.parents}</b></div>
+        <div style={statBox('#F9D469', '#B88D0B')}>Ученики<br /><b>{data?.stats.students}</b></div>
+        <div style={statBox('#FFF6A0', '#E3A00C')}>На модерации<br /><b>{data?.stats.pendingClubs}</b></div>
+        <div style={statBox('#E4ECFF', '#4AA7F5')}>Отзывы<br /><b>{data?.stats.reviews}</b></div>
       </div>
 
       <div style={{
@@ -56,7 +53,7 @@ export default function AdminDashboard() {
           letterSpacing: 1
         }}>🚩 Жалобы и обращения</div>
         <ul style={{ paddingLeft: 16, fontSize: 15, fontWeight: 600 }}>
-          {mockComplaints.map(c => (
+          {data?.complaints.map(c => (
             <li key={c.id} style={{
               marginBottom: 9,
               color: c.status === 'Новая' ? '#E76431' : '#34480A'
@@ -97,7 +94,7 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {mockUsers.map(u => (
+            {data?.users.map(u => (
               <tr key={u.id} style={{ background: u.role === 'admin' ? '#E4ECFF' : '#fff' }}>
                 <td style={{ padding: 9 }}>{u.name}</td>
                 <td style={{

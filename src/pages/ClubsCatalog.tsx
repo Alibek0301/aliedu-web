@@ -1,40 +1,30 @@
-const mockClubs = [
-  {
-    id: 1,
-    name: 'Робототехника Junior',
-    city: 'Астана',
-    address: 'ул. Абая, 11',
-    direction: 'Техническое',
-    age: '7-11',
-    price: '20 000 ₸',
-    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&q=80',
-    desc: 'Роботы, 3D-принтеры, соревнования и творчество для детей.',
-  },
-  {
-    id: 2,
-    name: 'Шахматная академия',
-    city: 'Астана',
-    address: 'пр. Мангилик Ел, 12',
-    direction: 'Логика',
-    age: '6-14',
-    price: '15 000 ₸',
-    image: 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=facearea&w=400&q=80',
-    desc: 'Обучение шахматам в группах и индивидуально. Турниры каждую неделю!',
-  },
-  {
-    id: 3,
-    name: 'Арт-студия "Краски"',
-    city: 'Астана',
-    address: 'ул. Сарыарка, 7',
-    direction: 'Творчество',
-    age: '5-12',
-    price: '18 000 ₸',
-    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80',
-    desc: 'Живопись, лепка, творчество и развитие эстетического вкуса.',
-  }
-];
+import { useEffect, useState } from 'react';
+import { ClubCard } from '../components/ClubCard';
+
+type Club = {
+  id: number;
+  name: string;
+  city: string;
+  address: string;
+  direction: string;
+  age: string;
+  price: string;
+  image: string;
+  desc: string;
+};
 
 export default function ClubsCatalog() {
+  const [clubs, setClubs] = useState<Club[]>([]);
+  const [city, setCity] = useState('');
+  const [direction, setDirection] = useState('');
+  const [age, setAge] = useState('');
+
+  useEffect(() => {
+    fetch('/api/clubs')
+      .then(r => r.json())
+      .then(data => setClubs(data))
+      .catch(() => setClubs([]));
+  }, []);
   return (
     <div style={{
       maxWidth: 1100,
@@ -53,7 +43,6 @@ export default function ClubsCatalog() {
         Каталог кружков и секций
       </h2>
 
-      {/* Блок фильтрации-заглушки */}
       <div style={{
         display: 'flex',
         gap: 20,
@@ -61,9 +50,24 @@ export default function ClubsCatalog() {
         flexWrap: 'wrap',
         justifyContent: 'center'
       }}>
-        <select style={filterStyle}><option>Город: Астана</option></select>
-        <select style={filterStyle}><option>Направление: Все</option></select>
-        <select style={filterStyle}><option>Возраст: Все</option></select>
+        <input
+          placeholder="Город"
+          value={city}
+          onChange={e => setCity(e.target.value)}
+          style={filterStyle}
+        />
+        <input
+          placeholder="Направление"
+          value={direction}
+          onChange={e => setDirection(e.target.value)}
+          style={filterStyle}
+        />
+        <input
+          placeholder="Возраст"
+          value={age}
+          onChange={e => setAge(e.target.value)}
+          style={filterStyle}
+        />
       </div>
 
       <div style={{
@@ -71,93 +75,21 @@ export default function ClubsCatalog() {
         gap: 32,
         gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))'
       }}>
-        {mockClubs.map(club => (
-          <div key={club.id} style={{
-            background: '#fff',
-            borderRadius: 26,
-            boxShadow: '0 4px 24px #0001',
-            padding: '0 0 24px 0',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <img
-              src={club.image}
-              alt={club.name}
-              style={{
-                width: '100%',
-                height: 180,
-                objectFit: 'cover',
-                borderTopLeftRadius: 26,
-                borderTopRightRadius: 26
-              }}
-            />
-            <div style={{ padding: '22px 24px 0 24px', flex: 1 }}>
-              <div style={{
-                fontSize: 22,
-                fontWeight: 900,
-                color: '#4AA7F5',
-                marginBottom: 4,
-                lineHeight: 1.1
-              }}>{club.name}</div>
-              <div style={{
-                color: '#A7E04B',
-                fontWeight: 800,
-                fontSize: 15,
-                marginBottom: 4
-              }}>{club.direction}</div>
-              <div style={{
-                fontSize: 15,
-                color: '#888',
-                marginBottom: 8
-              }}>
-                {club.city}, {club.address}
-              </div>
-              <div style={{
-                fontSize: 16,
-                color: '#333',
-                fontWeight: 700,
-                marginBottom: 6
-              }}>
-                Возраст: <span style={{ color: '#4AA7F5' }}>{club.age}</span>
-              </div>
-              <div style={{
-                fontSize: 16,
-                color: '#E3A00C',
-                fontWeight: 800,
-                marginBottom: 11
-              }}>
-                {club.price}
-              </div>
-              <div style={{
-                fontSize: 15,
-                color: '#444',
-                marginBottom: 11
-              }}>{club.desc}</div>
-            </div>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center'
-            }}>
-              <button
-                style={{
-                  background: 'linear-gradient(90deg,#A7E04B 60%,#4AA7F5 100%)',
-                  color: '#222',
-                  fontWeight: 900,
-                  fontSize: 17,
-                  border: 'none',
-                  borderRadius: 14,
-                  padding: '13px 38px',
-                  cursor: 'pointer',
-                  marginTop: 10,
-                  marginBottom: 5,
-                  boxShadow: '0 2px 8px #4aa7f520'
-                }}
-              >
-                Записаться
-              </button>
-            </div>
-          </div>
+        {clubs
+          .filter(c => (!city || c.city.toLowerCase().includes(city.toLowerCase())) &&
+            (!direction || c.direction.toLowerCase().includes(direction.toLowerCase())) &&
+            (!age || c.age.includes(age)))
+          .map(club => (
+            <ClubCard key={club.id} club={{
+              id: club.id,
+              title: club.name,
+              city: club.city,
+              age: club.age,
+              direction: club.direction,
+              price: club.price,
+              image: club.image,
+              rating: 5
+            }} />
         ))}
       </div>
     </div>
