@@ -11,10 +11,22 @@ export default function AuthPage({ onLogin, defaultMode = 'register' }: Props) {
   const [name, setName] = useState('');
   const [mode, setMode] = useState<'login' | 'register'>(defaultMode);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (name.trim().length < 2) return;
-    onLogin(role, name);
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role, name })
+      });
+      if (!res.ok) throw new Error('Failed');
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      onLogin(data.role, data.name);
+    } catch {
+      alert('Ошибка авторизации');
+    }
   }
 
   return (

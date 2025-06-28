@@ -1,21 +1,21 @@
-const mockChild = {
-  name: 'Айжан',
-  age: 9,
-  interests: ['Робототехника', 'Рисование', 'Футбол'],
-  photoUrl: 'https://randomuser.me/api/portraits/med/women/43.jpg'
+import { useEffect, useState } from 'react';
+
+type Dashboard = {
+  child: { name: string; age: number; interests: string[]; photoUrl: string };
+  records: { id: number; club: string; date: string; status: string }[];
+  events: { id: number; date: string; event: string }[];
 };
 
-const mockRecords = [
-  { id: 1, club: 'Робототехника Junior', date: '2024-09-01', status: 'Записан' },
-  { id: 2, club: 'Футбольная секция "Звезда"', date: '2024-09-02', status: 'Посещено' }
-];
-
-const mockEvents = [
-  { id: 1, date: '2024-09-03', event: 'Открытый урок по рисованию' },
-  { id: 2, date: '2024-09-05', event: 'Запись в "Робототехника Junior"' }
-];
-
 export default function ParentDashboard() {
+  const [data, setData] = useState<Dashboard | null>(null);
+
+  useEffect(() => {
+    fetch('/api/parent/dashboard')
+      .then(r => r.json())
+      .then(setData)
+      .catch(() => setData(null));
+  }, []);
+
   return (
     <div style={{
       maxWidth: 740,
@@ -28,8 +28,8 @@ export default function ParentDashboard() {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 22 }}>
         <img
-          src={mockChild.photoUrl}
-          alt={mockChild.name}
+          src={data?.child.photoUrl}
+          alt={data?.child.name}
           style={{
             width: 88,
             height: 88,
@@ -46,19 +46,19 @@ export default function ParentDashboard() {
             fontWeight: 900,
             color: '#4AA7F5',
             marginBottom: 4
-          }}>{mockChild.name}</div>
+          }}>{data?.child.name}</div>
           <div style={{
             color: '#555',
             fontWeight: 700,
             fontSize: 18
-          }}>{mockChild.age} лет</div>
+          }}>{data?.child.age} лет</div>
           <div style={{
             color: '#A7E04B',
             fontWeight: 800,
             fontSize: 16,
             marginTop: 2
           }}>
-            Интересы: <span style={{ color: '#222' }}>{mockChild.interests.join(', ')}</span>
+            Интересы: <span style={{ color: '#222' }}>{data?.child.interests.join(', ')}</span>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@ export default function ParentDashboard() {
             letterSpacing: 1
           }}>История записей</div>
           <ul style={{ paddingLeft: 14, fontSize: 15, fontWeight: 600, color: '#34480A' }}>
-            {mockRecords.map(rec => (
+            {data?.records?.map(rec => (
               <li key={rec.id} style={{ marginBottom: 7 }}>
                 <span style={{ color: '#4AA7F5', fontWeight: 800 }}>{rec.club}</span><br />
                 <span style={{ color: '#888' }}>{rec.date}</span>{' '}
@@ -114,7 +114,7 @@ export default function ParentDashboard() {
             letterSpacing: 1
           }}>Ближайшие события</div>
           <ul style={{ paddingLeft: 14, fontSize: 15, fontWeight: 600, color: '#B88D0B' }}>
-            {mockEvents.map(ev => (
+            {data?.events?.map(ev => (
               <li key={ev.id} style={{ marginBottom: 7 }}>
                 <span style={{ color: '#4AA7F5', fontWeight: 800 }}>{ev.date}</span>{' '}
                 <span>{ev.event}</span>
