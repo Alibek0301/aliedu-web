@@ -83,3 +83,22 @@ To lint and build the project (requires dependencies installed):
 npm run lint
 npm run build
 ```
+
+## Deploy
+
+This project can be published on **GitHub Pages**. The `base` option in
+`vite.config.ts` is set to `/aliedu-web/` so that the app works when served from
+the repository subpath.
+
+Automatic deployment is handled by a GitHub Actions workflow:
+
+1. Enable GitHub Pages in the repository settings.
+2. Push to the `main` branch. The workflow builds the project and publishes the
+   contents of `dist/` to the `gh-pages` branch.
+
+If you prefer to deploy manually, build the project locally and upload the
+`dist/` directory.
+
+```bash
+npm run build
+```
